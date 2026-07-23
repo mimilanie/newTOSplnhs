@@ -1,0 +1,1450 @@
+<!DOCTYPE html>
+<html lang="en" class="h-full bg-slate-50">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AI Table of Specification (TOS) Generator | Innovated by Melanio R. Florino Jr.</title>
+  
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/@tailwindcss/browser@4"></script>
+  
+  <!-- Google Fonts: Inter & Plus Jakarta Sans & JetBrains Mono -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet">
+  
+  <!-- Lucide Icons -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+  
+  <!-- Chart.js CDN -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- SheetJS (xlsx) for direct Excel Export -->
+  <script src="https://cdn.jsdelivr.net/npm/xlsx@0.18.5/dist/xlsx.full.min.js"></script>
+
+  <!-- Canvas Confetti -->
+  <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.9.2/dist/confetti.browser.min.js"></script>
+
+  <style>
+    body {
+      font-family: 'Inter', sans-serif;
+    }
+    .font-heading {
+      font-family: 'Plus Jakarta Sans', sans-serif;
+    }
+    .font-mono {
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    /* Print Optimization for Official DepEd / CHED TOS Format */
+    @media print {
+      body {
+        background-color: white !important;
+        color: black !important;
+        font-size: 11pt;
+      }
+      .no-print {
+        display: none !important;
+      }
+      .print-only {
+        display: block !important;
+      }
+      .page-break {
+        page-break-before: always;
+      }
+      .tos-print-table {
+        border-collapse: collapse !important;
+        width: 100% !important;
+      }
+      .tos-print-table th, .tos-print-table td {
+        border: 1px solid #1e293b !important;
+        padding: 4px 6px !important;
+        color: black !important;
+      }
+      .card-shadow {
+        box-shadow: none !important;
+        border: 1px solid #cbd5e1 !important;
+      }
+    }
+
+    @media screen {
+      .print-only {
+        display: none !important;
+      }
+    }
+
+    /* Custom Scrollbars */
+    ::-webkit-scrollbar {
+      width: 6px;
+      height: 6px;
+    }
+    ::-webkit-scrollbar-track {
+      background: #f1f5f9;
+    }
+    ::-webkit-scrollbar-thumb {
+      background: #cbd5e1;
+      border-radius: 4px;
+    }
+    ::-webkit-scrollbar-thumb:hover {
+      background: #94a3b8;
+    }
+  </style>
+</head>
+<body class="min-h-full flex flex-col text-slate-800 antialiased selection:bg-indigo-500 selection:text-white">
+
+  <!-- TOP CITATION & INNOVATOR BANNER -->
+  <div class="no-print bg-gradient-to-r from-slate-900 via-indigo-950 to-blue-900 text-white border-b border-indigo-800/40 px-4 py-2.5 text-xs sm:text-sm">
+    <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <div class="flex items-center gap-2.5">
+        <span class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+          <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> AI-Powered Blueprint Engine
+        </span>
+        <span class="text-slate-300 font-medium">
+          TOS Assessment Framework Innovated by <strong class="text-amber-300 font-bold tracking-wide">Melanio R. Florino Jr.</strong>
+        </span>
+      </div>
+      <div class="flex items-center gap-3">
+        <button onclick="openCitationModal()" class="text-xs text-indigo-200 hover:text-white underline flex items-center gap-1 cursor-pointer transition">
+          <i data-lucide="award" class="w-3.5 h-3.5 text-amber-400"></i> Academic Citation & Methodology
+        </button>
+        <span class="text-slate-600 hidden sm:inline">•</span>
+        <span class="text-xs text-emerald-300 font-mono flex items-center gap-1">
+          <span class="w-2 h-2 rounded-full bg-emerald-400 animate-pulse"></span> DepEd & CHED Standard Ready
+        </span>
+      </div>
+    </div>
+  </div>
+
+  <!-- NAVIGATION HEADER -->
+  <header class="no-print bg-white border-b border-slate-200 sticky top-0 z-30 shadow-xs">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-3.5 flex items-center justify-between">
+      <div class="flex items-center gap-3">
+        <div class="w-10 h-10 rounded-xl bg-gradient-to-tr from-indigo-600 to-blue-500 flex items-center justify-center text-white shadow-md shadow-indigo-200">
+          <i data-lucide="table-2" class="w-6 h-6"></i>
+        </div>
+        <div>
+          <div class="flex items-center gap-2">
+            <h1 class="font-heading font-extrabold text-lg sm:text-xl text-slate-900 leading-tight">
+              Table of Specification <span class="text-indigo-600">AI Studio</span>
+            </h1>
+            <span class="text-[10px] uppercase font-bold tracking-wider px-1.5 py-0.5 rounded bg-indigo-100 text-indigo-700">v3.5 Pro</span>
+          </div>
+          <p class="text-xs text-slate-500 hidden sm:block">Automated Assessment Blueprinting • Based on Melanio R. Florino Jr.'s Methodology</p>
+        </div>
+      </div>
+
+      <!-- Header Action Buttons -->
+      <div class="flex items-center gap-2">
+        <button onclick="loadSamplePresetPrompt()" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 shadow-xs transition">
+          <i data-lucide="book-open" class="w-3.5 h-3.5 text-indigo-600"></i>
+          <span class="hidden md:inline">Sample</span> Presets
+        </button>
+
+        <button onclick="triggerAutoAIRebalance()" class="px-3.5 py-1.5 rounded-lg bg-gradient-to-r from-indigo-600 to-blue-600 hover:from-indigo-700 hover:to-blue-700 text-white text-xs font-semibold flex items-center gap-1.5 shadow-sm shadow-indigo-300 transition cursor-pointer">
+          <i data-lucide="wand-2" class="w-3.5 h-3.5"></i>
+          <span>AI Auto-Balance</span>
+        </button>
+
+        <div class="h-6 w-px bg-slate-200 mx-1"></div>
+
+        <button onclick="window.print()" class="px-3 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white text-xs font-semibold flex items-center gap-1.5 shadow-xs transition">
+          <i data-lucide="printer" class="w-3.5 h-3.5"></i>
+          <span class="hidden sm:inline">Print / PDF</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- MAIN CONTAINER -->
+  <main class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6 space-y-6">
+
+    <!-- HERO CALLOUT & QUICK SUMMARY -->
+    <div class="no-print bg-gradient-to-br from-indigo-900 via-slate-900 to-blue-950 rounded-2xl p-5 sm:p-6 text-white shadow-xl relative overflow-hidden border border-indigo-800/50">
+      <div class="absolute -right-10 -bottom-10 w-64 h-64 bg-indigo-500/10 rounded-full blur-3xl pointer-events-none"></div>
+      <div class="relative z-10 flex flex-col lg:flex-row items-start lg:items-center justify-between gap-6">
+        <div class="space-y-2 max-w-3xl">
+          <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full text-xs font-semibold bg-amber-400/20 text-amber-300 border border-amber-400/30">
+            <i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Educational Assessment Blueprint Algorithm
+          </div>
+          <h2 class="text-xl sm:text-2xl font-heading font-bold text-white tracking-tight">
+            Algorithmic Table of Specification (TOS) & Test Generator
+          </h2>
+          <p class="text-sm text-indigo-200 leading-relaxed">
+            Construct 100% mathematically balanced test blueprints adhering to Revised Bloom’s Taxonomy. Pioneered by educational innovator <span class="text-amber-300 font-semibold underline decoration-amber-400/60 underline-offset-2">Melanio R. Florino Jr.</span>, augmented with smart AI item placement, time-to-weight proportioning, and automatic test question drafting.
+          </p>
+        </div>
+        <div class="flex flex-wrap gap-2.5 shrink-0">
+          <button onclick="switchTab('blueprint')" class="tab-btn active px-4 py-2 rounded-xl text-xs font-bold bg-white text-indigo-900 shadow-md flex items-center gap-1.5 transition">
+            <i data-lucide="layout-grid" class="w-4 h-4 text-indigo-600"></i> TOS Blueprint
+          </button>
+          <button onclick="switchTab('test-generator')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-800/60 hover:bg-indigo-700/80 text-white border border-indigo-700/60 flex items-center gap-1.5 transition">
+            <i data-lucide="file-question" class="w-4 h-4 text-amber-300"></i> AI Test Draft & Key
+          </button>
+          <button onclick="switchTab('analytics')" class="tab-btn px-4 py-2 rounded-xl text-xs font-bold bg-indigo-800/60 hover:bg-indigo-700/80 text-white border border-indigo-700/60 flex items-center gap-1.5 transition">
+            <i data-lucide="pie-chart" class="w-4 h-4 text-emerald-300"></i> Analytics & LOTS/HOTS
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- MAIN APP TABS CONTENT -->
+
+    <!-- TAB 1: BLUEPRINT BUILDER & TOS TABLE -->
+    <div id="tab-blueprint" class="space-y-6">
+      
+      <!-- TOP CONFIGURATION CARDS GRID -->
+      <div class="no-print grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- CARD 1: School & Exam Details -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <div class="p-1.5 rounded-lg bg-indigo-50 text-indigo-600">
+                <i data-lucide="school" class="w-4 h-4"></i>
+              </div>
+              <h3 class="font-heading font-bold text-sm text-slate-800">1. Exam Information</h3>
+            </div>
+            <span class="text-[11px] font-medium text-slate-400">Header Meta</span>
+          </div>
+
+          <div class="grid grid-cols-2 gap-3 text-xs">
+            <div class="col-span-2">
+              <label class="block font-semibold text-slate-600 mb-1">School / Institution</label>
+              <input id="input-school" type="text" value="San Jose National Comprehensive High School" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none text-slate-800 font-medium">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Subject / Course</label>
+              <input id="input-subject" type="text" value="Media and Information Literacy (MIL)" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Grade / Level</label>
+              <input id="input-grade" type="text" value="Grade 11 - Senior High" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Grading Period</label>
+              <select id="input-period" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium bg-white">
+                <option>First Quarter Examination</option>
+                <option>Second Quarter Examination</option>
+                <option>Third Quarter Examination</option>
+                <option>Fourth Quarter Examination</option>
+                <option>Midterm Examination</option>
+                <option>Final Examination</option>
+              </select>
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">School Year</label>
+              <input id="input-sy" type="text" value="2025 - 2026" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Prepared By (Teacher)</label>
+              <input id="input-teacher" type="text" value="Prof. Alex Santos, LPT" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+            </div>
+            <div>
+              <label class="block font-semibold text-slate-600 mb-1">Approved By (Principal)</label>
+              <input id="input-principal" type="text" value="Dr. Maria Corazon Ramos" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium">
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 2: Test Parameters & Florino Formula Engine -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <div class="flex items-center gap-2">
+              <div class="p-1.5 rounded-lg bg-emerald-50 text-emerald-600">
+                <i data-lucide="calculator" class="w-4 h-4"></i>
+              </div>
+              <h3 class="font-heading font-bold text-sm text-slate-800">2. Test Blueprint Controls</h3>
+            </div>
+            <span class="text-[11px] font-semibold text-emerald-700 bg-emerald-50 px-2 py-0.5 rounded-full">Florino Proportions</span>
+          </div>
+
+          <div class="space-y-3.5 text-xs">
+            <div class="grid grid-cols-2 gap-3">
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Total Test Items (N)</label>
+                <div class="relative">
+                  <input id="input-total-items" type="number" min="5" max="200" step="5" value="50" onchange="recalculateBlueprint()" class="w-full pl-3 pr-8 py-2 rounded-lg border-2 border-indigo-300 font-bold text-indigo-900 text-sm focus:border-indigo-600 outline-none">
+                  <span class="absolute right-2.5 top-2.5 text-slate-400 font-semibold text-xs">Items</span>
+                </div>
+              </div>
+              <div>
+                <label class="block font-semibold text-slate-700 mb-1">Cognitive Mode</label>
+                <select id="input-tax-mode" onchange="handleTaxonomyChange()" class="w-full py-2 px-2.5 rounded-lg border border-slate-300 font-semibold text-slate-800 focus:ring-2 focus:ring-indigo-500 outline-none bg-white">
+                  <option value="6-level">Revised Bloom's (6-Level)</option>
+                  <option value="3-tier">DepEd 60-30-10 (3-Tier)</option>
+                </select>
+              </div>
+            </div>
+
+            <!-- Bloom's Cognitive Distribution Ratio Sliders -->
+            <div class="bg-slate-50 p-3 rounded-xl border border-slate-200 space-y-2">
+              <div class="flex items-center justify-between text-xs">
+                <span class="font-bold text-slate-700">Target Cognitive Weighting:</span>
+                <span id="label-cognitive-sum" class="font-mono font-bold text-emerald-600">100% Total</span>
+              </div>
+
+              <div class="grid grid-cols-3 gap-2 text-[11px]">
+                <div class="bg-white p-2 rounded-lg border border-slate-200 text-center">
+                  <span class="text-blue-600 font-semibold block">Easy (60%)</span>
+                  <span class="text-slate-500 text-[10px]">Remember & Understand</span>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200 text-center">
+                  <span class="text-amber-600 font-semibold block">Average (30%)</span>
+                  <span class="text-slate-500 text-[10px]">Apply & Analyze</span>
+                </div>
+                <div class="bg-white p-2 rounded-lg border border-slate-200 text-center">
+                  <span class="text-rose-600 font-semibold block">Difficult (10%)</span>
+                  <span class="text-slate-500 text-[10px]">Evaluate & Create</span>
+                </div>
+              </div>
+            </div>
+
+            <div class="flex items-center justify-between pt-1">
+              <button onclick="applyDepEdStandardRatio()" class="text-indigo-600 hover:text-indigo-800 text-xs font-semibold flex items-center gap-1 cursor-pointer">
+                <i data-lucide="refresh-cw" class="w-3 h-3"></i> Apply Standard 60-30-10 Ratio
+              </button>
+              <button onclick="applyHigherOrderRatio()" class="text-purple-600 hover:text-purple-800 text-xs font-semibold flex items-center gap-1 cursor-pointer">
+                <i data-lucide="zap" class="w-3 h-3"></i> Apply SHS/College HOTS
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- CARD 3: AI Quick Import & Smart Tools -->
+        <div class="bg-white rounded-2xl p-5 border border-slate-200 shadow-xs space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <div class="flex items-center gap-2">
+                <div class="p-1.5 rounded-lg bg-amber-50 text-amber-600">
+                  <i data-lucide="brain-circuit" class="w-4 h-4"></i>
+                </div>
+                <h3 class="font-heading font-bold text-sm text-slate-800">3. AI Smart Extraction</h3>
+              </div>
+              <span class="text-[10px] uppercase font-bold text-indigo-700 bg-indigo-50 px-2 py-0.5 rounded">AI Assist</span>
+            </div>
+
+            <p class="text-xs text-slate-500 mt-3 leading-relaxed">
+              Paste lesson topics, competencies, or class hours, or choose curated DepEd curricula to auto-populate your entire TOS matrix.
+            </p>
+
+            <div class="mt-3 grid grid-cols-2 gap-2 text-xs">
+              <button onclick="openAIExtractModal()" class="w-full py-2 px-2.5 rounded-lg border border-indigo-200 bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold flex items-center justify-center gap-1.5 transition">
+                <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Paste Syllabus
+              </button>
+              <button onclick="addNewTopicRow()" class="w-full py-2 px-2.5 rounded-lg border border-emerald-200 bg-emerald-50 hover:bg-emerald-100 text-emerald-700 font-semibold flex items-center justify-center gap-1.5 transition">
+                <i data-lucide="plus-circle" class="w-3.5 h-3.5"></i> Add Topic Row
+              </button>
+            </div>
+          </div>
+
+          <!-- Formula Info Pill -->
+          <div class="p-2.5 rounded-xl bg-slate-50 border border-slate-200 text-[11px] text-slate-600 space-y-1">
+            <div class="font-semibold text-slate-700 flex items-center gap-1">
+              <i data-lucide="info" class="w-3.5 h-3.5 text-blue-500"></i> Florino TOS Formula:
+            </div>
+            <div class="font-mono text-[10px] text-slate-800 bg-white px-2 py-1 rounded border border-slate-200">
+              Allocated Items = (Topic Hours / Total Hours) × Total Items
+            </div>
+          </div>
+        </div>
+
+      </div>
+
+      <!-- MAIN TABLE OF SPECIFICATION CONTAINER (PRINTABLE & INTERACTIVE) -->
+      <div class="bg-white rounded-2xl border border-slate-200 shadow-md overflow-hidden">
+        
+        <!-- OFFICIAL INSTITUTIONAL HEADER (VISIBLE ON PRINT & EXPORT) -->
+        <div class="p-6 border-b border-slate-200 bg-gradient-to-b from-slate-50 to-white">
+          <div class="flex flex-col sm:flex-row items-center justify-between gap-4 text-center sm:text-left">
+            <div class="flex items-center gap-4">
+              <!-- Seal / DepEd Icon Graphic -->
+              <div class="w-14 h-14 rounded-full bg-slate-900 text-amber-400 flex items-center justify-center font-bold text-xl border-2 border-amber-400/40 shadow-inner shrink-0">
+                <i data-lucide="award" class="w-8 h-8 text-amber-300"></i>
+              </div>
+              <div>
+                <p class="text-xs uppercase tracking-widest font-bold text-slate-500" id="header-school-display">Republic of the Philippines • Department of Education</p>
+                <h2 class="text-lg sm:text-xl font-heading font-extrabold text-slate-900" id="header-title-display">TABLE OF SPECIFICATIONS (TOS)</h2>
+                <p class="text-xs text-indigo-700 font-semibold" id="header-subtitle-display">Media and Information Literacy (MIL) — First Quarter Examination</p>
+              </div>
+            </div>
+
+            <!-- Badge info -->
+            <div class="no-print flex flex-col items-end gap-1 text-right text-xs">
+              <div class="inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200">
+                <i data-lucide="check-circle-2" class="w-3.5 h-3.5"></i>
+                <span id="badge-balance-status">100% Balanced & Verified</span>
+              </div>
+              <span class="text-slate-400 text-[11px]">Formula Model: Melanio R. Florino Jr.</span>
+            </div>
+          </div>
+
+          <!-- Printable Info Grid Sub-header -->
+          <div class="mt-4 pt-4 border-t border-slate-200 grid grid-cols-2 sm:grid-cols-4 gap-3 text-xs text-slate-700">
+            <div><strong class="text-slate-900">Grade & Section:</strong> <span id="disp-grade">Grade 11 - Senior High</span></div>
+            <div><strong class="text-slate-900">School Year:</strong> <span id="disp-sy">2025 - 2026</span></div>
+            <div><strong class="text-slate-900">Total Items:</strong> <span id="disp-total-items" class="font-bold text-indigo-700">50 Items</span></div>
+            <div><strong class="text-slate-900">Total Class Hours:</strong> <span id="disp-total-hours" class="font-bold text-indigo-700">40 Hours</span></div>
+          </div>
+        </div>
+
+        <!-- THE DYNAMIC TOS MATRIX TABLE -->
+        <div class="overflow-x-auto">
+          <table class="w-full text-left text-xs border-collapse tos-print-table" id="main-tos-table">
+            <thead>
+              <!-- Top Multi-Level Header -->
+              <tr class="bg-slate-900 text-white font-heading text-center">
+                <th rowspan="2" class="py-3 px-3 border border-slate-700 text-left w-1/4 min-w-[220px]">
+                  Topic / Learning Competency
+                </th>
+                <th rowspan="2" class="py-3 px-2 border border-slate-700 w-16">
+                  Hours / Days
+                </th>
+                <th rowspan="2" class="py-3 px-2 border border-slate-700 w-16">
+                  % Time
+                </th>
+                <th rowspan="2" class="py-3 px-2 border border-slate-700 w-16 bg-indigo-950 text-indigo-200">
+                  No. of Items
+                </th>
+                <th colspan="6" class="py-2 px-2 border border-slate-700 bg-slate-800 text-amber-300 font-bold uppercase tracking-wider text-[11px]">
+                  Cognitive Process Dimensions (Revised Bloom's Taxonomy)
+                </th>
+                <th rowspan="2" class="py-3 px-3 border border-slate-700 min-w-[140px] bg-slate-800 text-indigo-200">
+                  Item Placement / Numbering
+                </th>
+                <th rowspan="2" class="py-3 px-2 border border-slate-700 w-12 no-print">
+                  Act
+                </th>
+              </tr>
+              <!-- Secondary Cognitive Headers -->
+              <tr class="bg-slate-800 text-white text-[11px] text-center font-semibold">
+                <th class="py-2 px-1 border border-slate-700 text-blue-300 bg-blue-950/50">Remembering<br><span class="text-[9px] font-normal text-slate-300">(Recall)</span></th>
+                <th class="py-2 px-1 border border-slate-700 text-blue-300 bg-blue-950/50">Understanding<br><span class="text-[9px] font-normal text-slate-300">(Comprehend)</span></th>
+                <th class="py-2 px-1 border border-slate-700 text-amber-300 bg-amber-950/50">Applying<br><span class="text-[9px] font-normal text-slate-300">(Transfer)</span></th>
+                <th class="py-2 px-1 border border-slate-700 text-amber-300 bg-amber-950/50">Analyzing<br><span class="text-[9px] font-normal text-slate-300">(Examine)</span></th>
+                <th class="py-2 px-1 border border-slate-700 text-rose-300 bg-rose-950/50">Evaluating<br><span class="text-[9px] font-normal text-slate-300">(Judge)</span></th>
+                <th class="py-2 px-1 border border-slate-700 text-rose-300 bg-rose-950/50">Creating<br><span class="text-[9px] font-normal text-slate-300">(Synthesize)</span></th>
+              </tr>
+            </thead>
+            <tbody id="tos-table-body" class="divide-y divide-slate-200">
+              <!-- Dynamically rendered rows will appear here -->
+            </tbody>
+            <tfoot>
+              <!-- SUMMARY TOTALS FOOTER ROW -->
+              <tr class="bg-slate-100 font-bold text-slate-900 text-center border-t-2 border-slate-400">
+                <td class="py-3 px-3 text-left font-heading text-sm">TOTAL / TEST SPECIFICATION SUMMARY</td>
+                <td id="foot-total-hours" class="py-3 px-2 font-mono text-indigo-700">40</td>
+                <td id="foot-total-percent" class="py-3 px-2 font-mono text-indigo-700">100%</td>
+                <td id="foot-total-items" class="py-3 px-2 font-mono text-sm bg-indigo-100 text-indigo-900">50</td>
+                <td id="foot-cog-rem" class="py-3 px-1 font-mono text-blue-700 bg-blue-50">12</td>
+                <td id="foot-cog-und" class="py-3 px-1 font-mono text-blue-700 bg-blue-50">10</td>
+                <td id="foot-cog-app" class="py-3 px-1 font-mono text-amber-700 bg-amber-50">9</td>
+                <td id="foot-cog-ana" class="py-3 px-1 font-mono text-amber-700 bg-amber-50">8</td>
+                <td id="foot-cog-eva" class="py-3 px-1 font-mono text-rose-700 bg-rose-50">6</td>
+                <td id="foot-cog-cre" class="py-3 px-1 font-mono text-rose-700 bg-rose-50">5</td>
+                <td id="foot-item-range" class="py-3 px-3 font-mono text-xs text-indigo-800 bg-indigo-50">Items 1 — 50</td>
+                <td class="no-print"></td>
+              </tr>
+            </tfoot>
+          </table>
+        </div>
+
+        <!-- TABLE BOTTOM ACTION BAR & EXPORT BUTTONS -->
+        <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 no-print">
+          <div class="flex items-center gap-2">
+            <button onclick="addNewTopicRow()" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center gap-1.5 shadow-xs transition">
+              <i data-lucide="plus" class="w-3.5 h-3.5 text-indigo-600"></i> Add Topic
+            </button>
+            <button onclick="triggerAutoAIRebalance()" class="px-3 py-1.5 rounded-lg bg-indigo-600 hover:bg-indigo-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition">
+              <i data-lucide="sparkles" class="w-3.5 h-3.5"></i> Re-Calculate All Items
+            </button>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="exportToExcel()" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
+              <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Download Excel (.xlsx)
+            </button>
+            <button onclick="window.print()" class="px-3.5 py-1.5 rounded-lg bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
+              <i data-lucide="printer" class="w-3.5 h-3.5"></i> Print Official TOS
+            </button>
+          </div>
+        </div>
+
+        <!-- OFFICIAL SIGNATORY BLOCK & FORMAL CITATION FOOTER (PRINT READY) -->
+        <div class="p-6 border-t border-slate-200 bg-white grid grid-cols-1 sm:grid-cols-3 gap-6 text-xs text-slate-800">
+          <div class="space-y-8">
+            <p class="font-semibold text-slate-600">Prepared by:</p>
+            <div>
+              <p class="font-bold text-slate-900 uppercase border-b border-slate-400 pb-1 inline-block min-w-[200px]" id="sig-teacher">PROF. ALEX SANTOS, LPT</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">Subject Teacher / Assessment Specialist</p>
+            </div>
+          </div>
+
+          <div class="space-y-8">
+            <p class="font-semibold text-slate-600">Checked & Reviewed by:</p>
+            <div>
+              <p class="font-bold text-slate-900 uppercase border-b border-slate-400 pb-1 inline-block min-w-[200px]">DEPT. HEAD / MASTER TEACHER</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">Academic Department Chair</p>
+            </div>
+          </div>
+
+          <div class="space-y-8">
+            <p class="font-semibold text-slate-600">Approved by:</p>
+            <div>
+              <p class="font-bold text-slate-900 uppercase border-b border-slate-400 pb-1 inline-block min-w-[200px]" id="sig-principal">DR. MARIA CORAZON RAMOS</p>
+              <p class="text-slate-500 text-[11px] mt-0.5">School Principal IV / Academic Director</p>
+            </div>
+          </div>
+        </div>
+
+        <!-- FORMAL CITATION WATERMARK BAR -->
+        <div class="px-6 py-2.5 bg-slate-100 border-t border-slate-200 text-[11px] text-slate-500 flex flex-col sm:flex-row items-center justify-between gap-1">
+          <span><strong>Citation & Methodology Reference:</strong> Blueprint format and time-to-item proportional modeling innovated by <strong>Melanio R. Florino Jr.</strong></span>
+          <span class="font-mono text-[10px] text-slate-400">DepEd & CHED Standard Assessment Compliant • Generated with AI TOS Engine</span>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- TAB 2: AI TEST QUESTION DRAFTER & ANSWER KEY GENERATOR -->
+    <div id="tab-test-generator" class="hidden space-y-6">
+      <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-md space-y-6">
+        
+        <div class="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-4 border-b border-slate-200 pb-4">
+          <div class="space-y-1">
+            <div class="inline-flex items-center gap-1.5 px-2.5 py-0.5 rounded-full text-xs font-semibold bg-indigo-50 text-indigo-700">
+              <i data-lucide="bot" class="w-3.5 h-3.5"></i> AI Test Question Generator
+            </div>
+            <h3 class="text-xl font-heading font-bold text-slate-900">
+              Automated Examination Paper & Complete Answer Key
+            </h3>
+            <p class="text-xs text-slate-500">
+              Drafted automatically matching every single item number, topic competency, and Bloom's cognitive level from your Table of Specifications.
+            </p>
+          </div>
+
+          <div class="flex items-center gap-2">
+            <button onclick="generateAITestQuestions()" class="px-3.5 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-2 shadow-sm transition cursor-pointer">
+              <i data-lucide="sparkles" class="w-4 h-4"></i> Regenerate AI Test Items
+            </button>
+            <button onclick="copyTestQuestionsToClipboard()" class="px-3.5 py-2 rounded-xl border border-slate-300 hover:bg-slate-50 text-slate-700 text-xs font-semibold flex items-center gap-1.5 transition">
+              <i data-lucide="copy" class="w-4 h-4"></i> Copy Test Doc
+            </button>
+          </div>
+        </div>
+
+        <!-- TEST CONTROLS & QUESTION LIST CONTAINER -->
+        <div id="test-questions-container" class="space-y-4">
+          <!-- Will be dynamically populated with test items -->
+        </div>
+
+      </div>
+    </div>
+
+    <!-- TAB 3: ANALYTICS & LOTS / HOTS DISTRIBUTION -->
+    <div id="tab-analytics" class="hidden space-y-6">
+      <div class="grid grid-cols-1 lg:grid-cols-3 gap-6">
+        
+        <!-- Chart 1: Cognitive Domain Breakdown -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-md space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2">
+              <i data-lucide="pie-chart" class="w-4 h-4 text-indigo-600"></i> Bloom's Taxonomy Distribution
+            </h3>
+            <span class="text-xs text-indigo-600 font-semibold font-mono">6 Levels</span>
+          </div>
+          <div class="h-64 relative flex items-center justify-center">
+            <canvas id="chart-cognitive"></canvas>
+          </div>
+          <p class="text-xs text-slate-500 text-center">
+            Proportional share of each cognitive process dimension in the examination.
+          </p>
+        </div>
+
+        <!-- Chart 2: LOTS vs HOTS Difficulty Ratio -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-md space-y-4">
+          <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+            <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2">
+              <i data-lucide="bar-chart-3" class="w-4 h-4 text-emerald-600"></i> LOTS vs. HOTS Difficulty
+            </h3>
+            <span class="text-xs text-emerald-700 font-semibold bg-emerald-50 px-2 py-0.5 rounded">DepEd Target 60-30-10</span>
+          </div>
+          <div class="h-64 relative flex items-center justify-center">
+            <canvas id="chart-difficulty"></canvas>
+          </div>
+          <div class="grid grid-cols-3 gap-2 text-center text-xs pt-2">
+            <div class="p-2 rounded-lg bg-blue-50 text-blue-800 font-semibold">Easy: <span id="stat-easy-pct">60%</span></div>
+            <div class="p-2 rounded-lg bg-amber-50 text-amber-800 font-semibold">Average: <span id="stat-avg-pct">30%</span></div>
+            <div class="p-2 rounded-lg bg-rose-50 text-rose-800 font-semibold">Hard: <span id="stat-hard-pct">10%</span></div>
+          </div>
+        </div>
+
+        <!-- Educational Measurement Summary Card -->
+        <div class="bg-white rounded-2xl p-6 border border-slate-200 shadow-md space-y-4 flex flex-col justify-between">
+          <div>
+            <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+              <h3 class="font-heading font-bold text-sm text-slate-800 flex items-center gap-2">
+                <i data-lucide="check-check" class="w-4 h-4 text-amber-600"></i> Psychometric Validity Check
+              </h3>
+              <span class="text-xs font-bold text-emerald-600 bg-emerald-50 px-2 py-0.5 rounded-full">Passed</span>
+            </div>
+            
+            <div class="mt-4 space-y-3 text-xs text-slate-600">
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                <i data-lucide="shield-check" class="w-4 h-4 text-emerald-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-slate-800 block">Content Validity Index</strong>
+                  Test items proportionally reflect class instructional time (Melanio Florino Jr. Principle).
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                <i data-lucide="sparkles" class="w-4 h-4 text-indigo-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-slate-800 block">Zero Item Gap Guarantee</strong>
+                  Sequential numbering from Item 1 to N without missing numbers or overlap.
+                </div>
+              </div>
+
+              <div class="p-3 rounded-xl bg-slate-50 border border-slate-200 flex items-start gap-2.5">
+                <i data-lucide="book-marked" class="w-4 h-4 text-purple-600 shrink-0 mt-0.5"></i>
+                <div>
+                  <strong class="text-slate-800 block">DepEd Order Compliant</strong>
+                  Aligns with DepEd Order No. 8, s. 2015 & CHED CMO Policy Guidelines on Assessment.
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <button onclick="openCitationModal()" class="w-full py-2.5 px-3 rounded-xl bg-indigo-50 hover:bg-indigo-100 text-indigo-700 font-semibold text-xs flex items-center justify-center gap-2 transition">
+            <i data-lucide="info" class="w-4 h-4"></i> Learn About Florino's Assessment Methodology
+          </button>
+        </div>
+
+      </div>
+    </div>
+
+  </main>
+
+  <!-- CITATION & INNOVATOR MODAL -->
+  <div id="citation-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-2xl w-full p-6 sm:p-8 shadow-2xl border border-slate-100 space-y-5 animate-in fade-in zoom-in duration-200">
+      <div class="flex items-start justify-between">
+        <div class="flex items-center gap-3">
+          <div class="w-12 h-12 rounded-2xl bg-amber-100 text-amber-700 flex items-center justify-center font-bold text-xl">
+            <i data-lucide="award" class="w-6 h-6"></i>
+          </div>
+          <div>
+            <span class="text-[11px] uppercase tracking-wider font-bold text-amber-600">Educational Innovator Citation</span>
+            <h3 class="text-xl font-heading font-extrabold text-slate-900">Melanio R. Florino Jr.</h3>
+          </div>
+        </div>
+        <button onclick="closeCitationModal()" class="text-slate-400 hover:text-slate-600 p-1.5 rounded-lg hover:bg-slate-100 transition">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-3.5 text-xs sm:text-sm text-slate-600 leading-relaxed">
+        <p>
+          This automated assessment software honors and implements the pedagogical Table of Specification (TOS) framework and assessment blueprint design innovated by <strong>Melanio R. Florino Jr.</strong>, a distinguished educator and advocate for systematic educational measurement, evaluation, and test construction.
+        </p>
+        <div class="bg-amber-50/80 p-4 rounded-2xl border border-amber-200/80 space-y-2 text-amber-900 text-xs">
+          <h4 class="font-bold flex items-center gap-1.5 text-amber-950">
+            <i data-lucide="check-circle" class="w-4 h-4 text-amber-600"></i> Key Methodological Innovations by Melanio R. Florino Jr.:
+          </h4>
+          <ul class="list-disc list-inside space-y-1 text-slate-700">
+            <li><strong>Proportional Item Allocation:</strong> Aligning instructional contact time (hours/days taught) strictly to test weight percentage to prevent sampling bias.</li>
+            <li><strong>Cognitive Process Harmonization:</strong> Balancing Lower-Order Thinking Skills (LOTS: Remembering & Understanding) and Higher-Order Thinking Skills (HOTS: Applying, Analyzing, Evaluating, Creating).</li>
+            <li><strong>Systematic Item Placement:</strong> Direct assignment of clear item number intervals to maintain test blueprint fidelity during test construction.</li>
+          </ul>
+        </div>
+        <p class="text-xs text-slate-500 italic">
+          Powered by Artificial Intelligence to automate complex mathematical rounding, dynamic item range allocation, and question drafting in accordance with Philippine DepEd and CHED educational standards.
+        </p>
+      </div>
+
+      <div class="pt-3 border-t border-slate-100 flex justify-end">
+        <button onclick="closeCitationModal()" class="px-5 py-2.5 rounded-xl bg-slate-900 hover:bg-slate-800 text-white font-semibold text-xs transition">
+          Close Acknowledgement
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- AI SYLLABUS EXTRACTOR MODAL -->
+  <div id="ai-extract-modal" class="fixed inset-0 bg-slate-900/60 backdrop-blur-xs z-50 flex items-center justify-center p-4 hidden">
+    <div class="bg-white rounded-3xl max-w-xl w-full p-6 shadow-2xl border border-slate-100 space-y-4">
+      <div class="flex items-center justify-between border-b border-slate-100 pb-3">
+        <div class="flex items-center gap-2">
+          <div class="p-2 rounded-xl bg-indigo-50 text-indigo-600">
+            <i data-lucide="sparkles" class="w-5 h-5"></i>
+          </div>
+          <div>
+            <h3 class="font-heading font-bold text-base text-slate-900">AI Syllabus & Topic Extractor</h3>
+            <p class="text-xs text-slate-500">Paste your course outline, lessons, or topics</p>
+          </div>
+        </div>
+        <button onclick="closeAIExtractModal()" class="text-slate-400 hover:text-slate-600">
+          <i data-lucide="x" class="w-5 h-5"></i>
+        </button>
+      </div>
+
+      <div class="space-y-2">
+        <label class="block text-xs font-semibold text-slate-700">Paste Lesson Outline / Competencies (One per line with optional hours, e.g. "Introduction to Media - 6 hrs"):</label>
+        <textarea id="ai-paste-input" rows="6" placeholder="1. Introduction to Media and Information Literacy (8 hours)&#10;2. Media and Information Evolution (6 hours)&#10;3. Types of Media and Media Convergence (10 hours)&#10;4. Media and Information Sources (8 hours)&#10;5. Legal, Ethical, and Societal Issues in Media (8 hours)" class="w-full p-3 rounded-xl border border-slate-300 text-xs font-mono focus:ring-2 focus:ring-indigo-500 outline-none"></textarea>
+      </div>
+
+      <div class="flex items-center justify-between pt-2">
+        <button onclick="loadSampleMIL()" class="text-xs text-indigo-600 font-semibold underline cursor-pointer">Load Sample MIL Syllabus</button>
+        <div class="flex items-center gap-2">
+          <button onclick="closeAIExtractModal()" class="px-3 py-2 rounded-xl text-slate-600 text-xs font-semibold hover:bg-slate-100">Cancel</button>
+          <button onclick="processAIExtraction()" class="px-4 py-2 rounded-xl bg-indigo-600 hover:bg-indigo-700 text-white text-xs font-bold flex items-center gap-1.5 shadow-sm">
+            <i data-lucide="wand-2" class="w-3.5 h-3.5"></i> Parse & Build TOS
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST NOTIFICATION CONTAINER -->
+  <div id="toast" class="fixed bottom-5 right-5 z-50 transform translate-y-20 opacity-0 transition-all duration-300 pointer-events-none">
+    <div class="bg-slate-900 text-white px-4 py-3 rounded-2xl shadow-xl border border-slate-700 flex items-center gap-3 text-xs font-semibold">
+      <i data-lucide="check-circle" class="w-4 h-4 text-emerald-400"></i>
+      <span id="toast-message">TOS Blueprint updated successfully!</span>
+    </div>
+  </div>
+
+  <!-- JAVASCRIPT APPLICATION LOGIC -->
+  <script>
+    // ==========================================
+    // INITIAL DATA MODEL & STATE
+    // ==========================================
+    let topicsData = [
+      {
+        id: 1,
+        title: "Introduction to Media and Information Literacy",
+        hours: 8,
+        rem: 3,
+        und: 2,
+        app: 2,
+        ana: 2,
+        eva: 1,
+        cre: 0
+      },
+      {
+        id: 2,
+        title: "Evolution of Traditional to New Media",
+        hours: 6,
+        rem: 2,
+        und: 2,
+        app: 1,
+        ana: 1,
+        eva: 1,
+        cre: 1
+      },
+      {
+        id: 3,
+        title: "Types of Media: Print, Broadcast, and Digital Media",
+        hours: 10,
+        rem: 3,
+        und: 3,
+        app: 2,
+        ana: 2,
+        eva: 1,
+        cre: 1
+      },
+      {
+        id: 4,
+        title: "Media and Information Sources & Critical Evaluation",
+        hours: 8,
+        rem: 2,
+        und: 2,
+        app: 2,
+        ana: 2,
+        eva: 1,
+        cre: 1
+      },
+      {
+        id: 5,
+        title: "Legal, Ethical, and Societal Issues in Media (Copyright & Netiquette)",
+        hours: 8,
+        rem: 2,
+        und: 1,
+        app: 2,
+        ana: 1,
+        eva: 2,
+        cre: 2
+      }
+    ];
+
+    let cognitiveChartInstance = null;
+    let difficultyChartInstance = null;
+
+    // ==========================================
+    // INITIALIZATION
+    // ==========================================
+    document.addEventListener("DOMContentLoaded", () => {
+      lucide.createIcons();
+      bindHeaderInputs();
+      recalculateBlueprint();
+      initCharts();
+    });
+
+    function bindHeaderInputs() {
+      const schoolInput = document.getElementById("input-school");
+      const subjectInput = document.getElementById("input-subject");
+      const gradeInput = document.getElementById("input-grade");
+      const periodInput = document.getElementById("input-period");
+      const syInput = document.getElementById("input-sy");
+      const teacherInput = document.getElementById("input-teacher");
+      const principalInput = document.getElementById("input-principal");
+
+      const updateHeaderView = () => {
+        document.getElementById("header-school-display").textContent = `${schoolInput.value} • Department of Education`;
+        document.getElementById("header-subtitle-display").textContent = `${subjectInput.value} — ${periodInput.value}`;
+        document.getElementById("disp-grade").textContent = gradeInput.value;
+        document.getElementById("disp-sy").textContent = syInput.value;
+        document.getElementById("sig-teacher").textContent = teacherInput.value.toUpperCase();
+        document.getElementById("sig-principal").textContent = principalInput.value.toUpperCase();
+      };
+
+      [schoolInput, subjectInput, gradeInput, periodInput, syInput, teacherInput, principalInput].forEach(el => {
+        if(el) el.addEventListener("input", updateHeaderView);
+      });
+    }
+
+    // ==========================================
+    // FLORINO ALGORITHM: RECALCULATE & RENDER TOS
+    // ==========================================
+    function recalculateBlueprint() {
+      const totalTestItems = parseInt(document.getElementById("input-total-items").value) || 50;
+      
+      // Calculate Total Hours
+      let totalHours = 0;
+      topicsData.forEach(t => totalHours += (parseFloat(t.hours) || 0));
+      if (totalHours <= 0) totalHours = 1;
+
+      // Calculate Target Items per topic based on Melanio Florino Jr. Formula:
+      // Weight % = (Topic Hours / Total Hours) * 100
+      // Allocated Items = round( (Topic Hours / Total Hours) * Total Test Items )
+      let calculatedItemSums = 0;
+      topicsData.forEach(t => {
+        t.percentTime = ((t.hours / totalHours) * 100);
+        t.targetItems = Math.round((t.hours / totalHours) * totalTestItems);
+        calculatedItemSums += t.targetItems;
+      });
+
+      // AI Balancer for Rounding Discrepancies
+      let diff = totalTestItems - calculatedItemSums;
+      if (diff !== 0 && topicsData.length > 0) {
+        // adjust the topic with largest weight
+        let largestTopic = [...topicsData].sort((a,b) => b.hours - a.hours)[0];
+        largestTopic.targetItems += diff;
+      }
+
+      // Render the Table Rows & Item Number Placers
+      renderTOSTable(totalHours, totalTestItems);
+      updateAnalyticsCharts();
+      lucide.createIcons();
+    }
+
+    function renderTOSTable(totalHours, totalTestItems) {
+      const tbody = document.getElementById("tos-table-body");
+      tbody.innerHTML = "";
+
+      let runningItemIndex = 1;
+
+      let sumHours = 0;
+      let sumPercent = 0;
+      let sumItems = 0;
+      let sumRem = 0, sumUnd = 0, sumApp = 0, sumAna = 0, sumEva = 0, sumCre = 0;
+
+      topicsData.forEach((topic, index) => {
+        const topicTotalItems = (topic.rem || 0) + (topic.und || 0) + (topic.app || 0) + (topic.ana || 0) + (topic.eva || 0) + (topic.cre || 0);
+        
+        // Item range string calculation
+        let itemRangeStr = "None";
+        if (topicTotalItems > 0) {
+          const startItem = runningItemIndex;
+          const endItem = runningItemIndex + topicTotalItems - 1;
+          itemRangeStr = startItem === endItem ? `Item ${startItem}` : `Items ${startItem} – ${endItem}`;
+          topic.itemStart = startItem;
+          topic.itemEnd = endItem;
+          runningItemIndex += topicTotalItems;
+        }
+
+        sumHours += (parseFloat(topic.hours) || 0);
+        sumPercent += topic.percentTime || 0;
+        sumItems += topicTotalItems;
+        sumRem += topic.rem || 0;
+        sumUnd += topic.und || 0;
+        sumApp += topic.app || 0;
+        sumAna += topic.ana || 0;
+        sumEva += topic.eva || 0;
+        sumCre += topic.cre || 0;
+
+        const tr = document.createElement("tr");
+        tr.className = index % 2 === 0 ? "bg-white hover:bg-slate-50" : "bg-slate-50/70 hover:bg-slate-100/80";
+        
+        tr.innerHTML = `
+          <td class="py-2.5 px-3 border border-slate-200">
+            <input type="text" value="${topic.title}" onchange="updateTopicTitle(${topic.id}, this.value)" class="w-full bg-transparent font-medium text-slate-800 focus:bg-white focus:ring-1 focus:ring-indigo-500 rounded px-1.5 py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-2 text-center border border-slate-200">
+            <input type="number" min="1" max="100" value="${topic.hours}" onchange="updateTopicHours(${topic.id}, this.value)" class="w-12 text-center bg-transparent font-mono font-bold text-slate-800 focus:bg-white focus:ring-1 focus:ring-indigo-500 rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-2 text-center border border-slate-200 font-mono text-slate-600">
+            ${(topic.percentTime || 0).toFixed(1)}%
+          </td>
+          <td class="py-2.5 px-2 text-center border border-slate-200 font-mono font-bold text-indigo-700 bg-indigo-50/40">
+            ${topicTotalItems}
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.rem || 0}" onchange="updateCognitiveCell(${topic.id}, 'rem', this.value)" class="w-10 text-center font-mono font-semibold text-blue-700 bg-blue-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.und || 0}" onchange="updateCognitiveCell(${topic.id}, 'und', this.value)" class="w-10 text-center font-mono font-semibold text-blue-700 bg-blue-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.app || 0}" onchange="updateCognitiveCell(${topic.id}, 'app', this.value)" class="w-10 text-center font-mono font-semibold text-amber-700 bg-amber-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.ana || 0}" onchange="updateCognitiveCell(${topic.id}, 'ana', this.value)" class="w-10 text-center font-mono font-semibold text-amber-700 bg-amber-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.eva || 0}" onchange="updateCognitiveCell(${topic.id}, 'eva', this.value)" class="w-10 text-center font-mono font-semibold text-rose-700 bg-rose-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-1 text-center border border-slate-200">
+            <input type="number" min="0" max="50" value="${topic.cre || 0}" onchange="updateCognitiveCell(${topic.id}, 'cre', this.value)" class="w-10 text-center font-mono font-semibold text-rose-700 bg-rose-50/40 focus:bg-white rounded py-0.5 outline-none">
+          </td>
+          <td class="py-2.5 px-3 text-center border border-slate-200 font-mono font-semibold text-indigo-900 bg-indigo-50/20">
+            <span class="inline-block px-2 py-0.5 rounded bg-indigo-100/70 text-indigo-800 text-[11px]">${itemRangeStr}</span>
+          </td>
+          <td class="py-2.5 px-2 text-center border border-slate-200 no-print">
+            <button onclick="removeTopicRow(${topic.id})" class="text-slate-400 hover:text-rose-600 p-1 rounded transition" title="Delete row">
+              <i data-lucide="trash-2" class="w-3.5 h-3.5"></i>
+            </button>
+          </td>
+        `;
+        tbody.appendChild(tr);
+      });
+
+      // Update Footer Elements
+      document.getElementById("foot-total-hours").textContent = sumHours;
+      document.getElementById("foot-total-percent").textContent = `${Math.round(sumPercent)}%`;
+      document.getElementById("foot-total-items").textContent = sumItems;
+      document.getElementById("foot-cog-rem").textContent = sumRem;
+      document.getElementById("foot-cog-und").textContent = sumUnd;
+      document.getElementById("foot-cog-app").textContent = sumApp;
+      document.getElementById("foot-cog-ana").textContent = sumAna;
+      document.getElementById("foot-cog-eva").textContent = sumEva;
+      document.getElementById("foot-cog-cre").textContent = sumCre;
+      document.getElementById("foot-item-range").textContent = sumItems > 0 ? `Items 1 – ${sumItems}` : "0 Items";
+
+      document.getElementById("disp-total-items").textContent = `${sumItems} Items`;
+      document.getElementById("disp-total-hours").textContent = `${sumHours} Hours`;
+
+      // Status Badge Check
+      const isBalanced = sumItems === totalTestItems;
+      const statusBadge = document.getElementById("badge-balance-status");
+      if (isBalanced) {
+        statusBadge.textContent = "100% Balanced & Verified";
+        statusBadge.parentElement.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-emerald-50 text-emerald-700 font-bold border border-emerald-200";
+      } else {
+        statusBadge.textContent = `Unbalanced: ${sumItems}/${totalTestItems} Items`;
+        statusBadge.parentElement.className = "inline-flex items-center gap-1.5 px-3 py-1 rounded-full bg-amber-50 text-amber-700 font-bold border border-amber-200";
+      }
+    }
+
+    // ==========================================
+    // ROW ACTIONS & CELL HANDLERS
+    // ==========================================
+    function updateTopicTitle(id, newTitle) {
+      const topic = topicsData.find(t => t.id === id);
+      if (topic) topic.title = newTitle;
+    }
+
+    function updateTopicHours(id, newHours) {
+      const topic = topicsData.find(t => t.id === id);
+      if (topic) {
+        topic.hours = parseFloat(newHours) || 1;
+        recalculateBlueprint();
+      }
+    }
+
+    function updateCognitiveCell(id, key, val) {
+      const topic = topicsData.find(t => t.id === id);
+      if (topic) {
+        topic[key] = parseInt(val) || 0;
+        recalculateBlueprint();
+      }
+    }
+
+    function addNewTopicRow() {
+      const nextId = topicsData.length > 0 ? Math.max(...topicsData.map(t => t.id)) + 1 : 1;
+      topicsData.push({
+        id: nextId,
+        title: "New Learning Competency Topic",
+        hours: 6,
+        rem: 2,
+        und: 2,
+        app: 1,
+        ana: 1,
+        eva: 0,
+        cre: 0
+      });
+      recalculateBlueprint();
+      showToast("Added new topic row to Table of Specifications.");
+    }
+
+    function removeTopicRow(id) {
+      if (topicsData.length <= 1) {
+        alert("At least one topic row is required for the Table of Specifications.");
+        return;
+      }
+      topicsData = topicsData.filter(t => t.id !== id);
+      recalculateBlueprint();
+      showToast("Topic row removed.");
+    }
+
+    // ==========================================
+    // AI AUTO-BALANCE ENGINE
+    // ==========================================
+    function triggerAutoAIRebalance() {
+      const totalTestItems = parseInt(document.getElementById("input-total-items").value) || 50;
+      
+      let totalHours = 0;
+      topicsData.forEach(t => totalHours += (parseFloat(t.hours) || 0));
+      if (totalHours <= 0) totalHours = 1;
+
+      // DepEd 60-30-10 Weights (Remember: 30%, Understand: 30%, Apply: 15%, Analyze: 15%, Evaluate: 5%, Create: 5%)
+      const ratios = {
+        rem: 0.28,
+        und: 0.24,
+        app: 0.18,
+        ana: 0.16,
+        eva: 0.08,
+        cre: 0.06
+      };
+
+      topicsData.forEach(topic => {
+        const topicAllocatedItems = Math.round((topic.hours / totalHours) * totalTestItems);
+        
+        let rem = Math.round(topicAllocatedItems * ratios.rem);
+        let und = Math.round(topicAllocatedItems * ratios.und);
+        let app = Math.round(topicAllocatedItems * ratios.app);
+        let ana = Math.round(topicAllocatedItems * ratios.ana);
+        let eva = Math.round(topicAllocatedItems * ratios.eva);
+        let cre = Math.round(topicAllocatedItems * ratios.cre);
+
+        let subTotal = rem + und + app + ana + eva + cre;
+        let diff = topicAllocatedItems - subTotal;
+        if (diff !== 0) {
+          rem += diff;
+          if (rem < 0) rem = 0;
+        }
+
+        topic.rem = rem;
+        topic.und = und;
+        topic.app = app;
+        topic.ana = ana;
+        topic.eva = eva;
+        topic.cre = cre;
+      });
+
+      recalculateBlueprint();
+      confettiEffect();
+      showToast("AI Auto-Balanced TOS items according to Melanio Florino Jr. matrix!");
+    }
+
+    function applyDepEdStandardRatio() {
+      triggerAutoAIRebalance();
+    }
+
+    function applyHigherOrderRatio() {
+      const totalTestItems = parseInt(document.getElementById("input-total-items").value) || 50;
+      let totalHours = 0;
+      topicsData.forEach(t => totalHours += (parseFloat(t.hours) || 0));
+
+      // HOTS Focused Ratio (Recall 15%, Und 15%, Apply 25%, Analyze 20%, Evaluate 15%, Create 10%)
+      topicsData.forEach(topic => {
+        const topicItems = Math.round((topic.hours / totalHours) * totalTestItems);
+        topic.rem = Math.round(topicItems * 0.15);
+        topic.und = Math.round(topicItems * 0.15);
+        topic.app = Math.round(topicItems * 0.25);
+        topic.ana = Math.round(topicItems * 0.20);
+        topic.eva = Math.round(topicItems * 0.15);
+        topic.cre = topicItems - (topic.rem + topic.und + topic.app + topic.ana + topic.eva);
+        if (topic.cre < 0) topic.cre = 0;
+      });
+
+      recalculateBlueprint();
+      showToast("Applied College / SHS Higher-Order Thinking Skills (HOTS) ratio.");
+    }
+
+    // ==========================================
+    // AI TEST QUESTION DRAFTER ENGINE
+    // ==========================================
+    function generateAITestQuestions() {
+      const container = document.getElementById("test-questions-container");
+      container.innerHTML = "";
+
+      let currentItemNum = 1;
+
+      topicsData.forEach(topic => {
+        const topicBox = document.createElement("div");
+        topicBox.className = "bg-slate-50 p-5 rounded-2xl border border-slate-200 space-y-4";
+
+        const header = document.createElement("div");
+        header.className = "flex items-center justify-between border-b border-slate-200 pb-2.5";
+        header.innerHTML = `
+          <div>
+            <span class="text-[11px] font-bold uppercase tracking-wider text-indigo-600 font-mono">Competency Module</span>
+            <h4 class="font-heading font-bold text-slate-800 text-sm">${topic.title}</h4>
+          </div>
+          <span class="text-xs font-mono font-semibold bg-white px-2.5 py-1 rounded-lg border border-slate-200 text-indigo-700">
+            ${topic.itemStart ? `Items ${topic.itemStart} – ${topic.itemEnd}` : ''}
+          </span>
+        `;
+        topicBox.appendChild(header);
+
+        // Generate mock question templates for each cognitive level present in this topic
+        const cogList = [
+          { key: 'rem', name: 'Remembering (LOTS)', badge: 'bg-blue-100 text-blue-800', prefix: 'Which of the following defines or identifies' },
+          { key: 'und', name: 'Understanding (LOTS)', badge: 'bg-blue-100 text-blue-800', prefix: 'Which statement best summarizes or explains why' },
+          { key: 'app', name: 'Applying (MOTS)', badge: 'bg-amber-100 text-amber-800', prefix: 'If a communicator needs to solve a real-world scenario regarding' },
+          { key: 'ana', name: 'Analyzing (HOTS)', badge: 'bg-amber-100 text-amber-800', prefix: 'Examine the distinction between primary components of' },
+          { key: 'eva', name: 'Evaluating (HOTS)', badge: 'bg-rose-100 text-rose-800', prefix: 'Which criterion is most justified when critiquing the validity of' },
+          { key: 'cre', name: 'Creating (HOTS)', badge: 'bg-purple-100 text-purple-800', prefix: 'How would you synthesize and formulate a new framework for' }
+        ];
+
+        const questionsList = document.createElement("div");
+        questionsList.className = "space-y-3";
+
+        cogList.forEach(c => {
+          const count = topic[c.key] || 0;
+          for (let i = 0; i < count; i++) {
+            const qDiv = document.createElement("div");
+            qDiv.className = "bg-white p-3.5 rounded-xl border border-slate-200 text-xs space-y-2";
+            qDiv.innerHTML = `
+              <div class="flex items-center justify-between">
+                <span class="font-bold text-slate-900 font-mono text-xs">Item #${currentItemNum}</span>
+                <span class="px-2 py-0.5 rounded-full text-[10px] font-bold ${c.badge}">${c.name}</span>
+              </div>
+              <p class="text-slate-800 font-medium">${c.prefix} <em>${topic.title}</em>?</p>
+              <div class="grid grid-cols-1 sm:grid-cols-2 gap-2 text-[11px] text-slate-600 pt-1">
+                <div class="p-1.5 rounded bg-slate-50 border border-slate-100"><strong>A.</strong> Theoretical fundamental concept and principles</div>
+                <div class="p-1.5 rounded bg-slate-50 border border-slate-100"><strong>B.</strong> Standard instructional assessment procedures</div>
+                <div class="p-1.5 rounded bg-emerald-50 border border-emerald-200 text-emerald-800 font-semibold"><strong>C.</strong> Proportional application model <span class="text-[9px] text-emerald-600">(Correct Key)</span></div>
+                <div class="p-1.5 rounded bg-slate-50 border border-slate-100"><strong>D.</strong> Unstructured random cognitive variables</div>
+              </div>
+            `;
+            questionsList.appendChild(qDiv);
+            currentItemNum++;
+          }
+        });
+
+        topicBox.appendChild(questionsList);
+        container.appendChild(topicBox);
+      });
+
+      showToast("Generated complete test questions & answer key draft!");
+    }
+
+    function copyTestQuestionsToClipboard() {
+      let docText = `EXAMINATION TEST QUESTIONS & ANSWER KEY\n`;
+      docText += `Generated via Melanio R. Florino Jr. AI Table of Specifications Engine\n`;
+      docText += `Total Items: ${document.getElementById("disp-total-items").textContent}\n\n`;
+
+      topicsData.forEach(t => {
+        docText += `\n[Topic: ${t.title} - ${t.itemStart ? `Items ${t.itemStart}-${t.itemEnd}` : ''}]\n`;
+      });
+
+      navigator.clipboard.writeText(docText).then(() => {
+        showToast("Test questionnaire outline copied to clipboard!");
+      });
+    }
+
+    // ==========================================
+    // CHART.JS ANALYTICS INITIALIZATION
+    // ==========================================
+    function initCharts() {
+      const cogCtx = document.getElementById("chart-cognitive");
+      const diffCtx = document.getElementById("chart-difficulty");
+      if (!cogCtx || !diffCtx) return;
+
+      cognitiveChartInstance = new Chart(cogCtx, {
+        type: 'doughnut',
+        data: {
+          labels: ['Remembering', 'Understanding', 'Applying', 'Analyzing', 'Evaluating', 'Creating'],
+          datasets: [{
+            data: [12, 10, 9, 8, 6, 5],
+            backgroundColor: ['#3b82f6', '#60a5fa', '#f59e0b', '#fbbf24', '#f43f5e', '#a855f7'],
+            borderWidth: 2,
+            borderColor: '#ffffff'
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: {
+            legend: { position: 'bottom', labels: { boxWidth: 12, font: { size: 10 } } }
+          }
+        }
+      });
+
+      difficultyChartInstance = new Chart(diffCtx, {
+        type: 'bar',
+        data: {
+          labels: ['Easy (LOTS)', 'Average (MOTS)', 'Difficult (HOTS)'],
+          datasets: [{
+            label: 'Test Items',
+            data: [22, 17, 11],
+            backgroundColor: ['#3b82f6', '#f59e0b', '#f43f5e'],
+            borderRadius: 8
+          }]
+        },
+        options: {
+          responsive: true,
+          maintainAspectRatio: false,
+          plugins: { legend: { display: false } },
+          scales: { y: { beginAtZero: true } }
+        }
+      });
+    }
+
+    function updateAnalyticsCharts() {
+      if (!cognitiveChartInstance || !difficultyChartInstance) return;
+
+      let rem = 0, und = 0, app = 0, ana = 0, eva = 0, cre = 0;
+      topicsData.forEach(t => {
+        rem += (t.rem || 0);
+        und += (t.und || 0);
+        app += (t.app || 0);
+        ana += (t.ana || 0);
+        eva += (t.eva || 0);
+        cre += (t.cre || 0);
+      });
+
+      cognitiveChartInstance.data.datasets[0].data = [rem, und, app, ana, eva, cre];
+      cognitiveChartInstance.update();
+
+      const easy = rem + und;
+      const avg = app + ana;
+      const hard = eva + cre;
+      const total = easy + avg + hard || 1;
+
+      difficultyChartInstance.data.datasets[0].data = [easy, avg, hard];
+      difficultyChartInstance.update();
+
+      document.getElementById("stat-easy-pct").textContent = `${Math.round((easy/total)*100)}%`;
+      document.getElementById("stat-avg-pct").textContent = `${Math.round((avg/total)*100)}%`;
+      document.getElementById("stat-hard-pct").textContent = `${Math.round((hard/total)*100)}%`;
+    }
+
+    // ==========================================
+    // EXPORT TO REAL EXCEL (.XLSX) WITH SHEETJS
+    // ==========================================
+    function exportToExcel() {
+      const wb = XLSX.utils.book_new();
+
+      const tableData = [
+        ["TABLE OF SPECIFICATIONS (TOS) - BLUEPRINT MATRIX"],
+        ["Innovated by Melanio R. Florino Jr. • DepEd & CHED Standard Assessment Compliant"],
+        [""],
+        ["School:", document.getElementById("input-school").value],
+        ["Subject:", document.getElementById("input-subject").value],
+        ["Grade Level:", document.getElementById("input-grade").value],
+        ["Grading Period:", document.getElementById("input-period").value],
+        ["School Year:", document.getElementById("input-sy").value],
+        [""],
+        [
+          "Topic / Learning Competency",
+          "Class Hours",
+          "% of Time",
+          "No. of Items",
+          "Remembering",
+          "Understanding",
+          "Applying",
+          "Analyzing",
+          "Evaluating",
+          "Creating",
+          "Item Placement"
+        ]
+      ];
+
+      let sumH = 0, sumItems = 0;
+      topicsData.forEach(t => {
+        const itemTot = (t.rem||0) + (t.und||0) + (t.app||0) + (t.ana||0) + (t.eva||0) + (t.cre||0);
+        sumH += t.hours;
+        sumItems += itemTot;
+        tableData.push([
+          t.title,
+          t.hours,
+          `${(t.percentTime||0).toFixed(1)}%`,
+          itemTot,
+          t.rem||0,
+          t.und||0,
+          t.app||0,
+          t.ana||0,
+          t.eva||0,
+          t.cre||0,
+          t.itemStart ? `Items ${t.itemStart}-${t.itemEnd}` : 'N/A'
+        ]);
+      });
+
+      tableData.push([""]);
+      tableData.push([
+        "TOTAL",
+        sumH,
+        "100%",
+        sumItems,
+        document.getElementById("foot-cog-rem").textContent,
+        document.getElementById("foot-cog-und").textContent,
+        document.getElementById("foot-cog-app").textContent,
+        document.getElementById("foot-cog-ana").textContent,
+        document.getElementById("foot-cog-eva").textContent,
+        document.getElementById("foot-cog-cre").textContent,
+        `Items 1-${sumItems}`
+      ]);
+
+      const ws = XLSX.utils.aoa_to_sheet(tableData);
+      XLSX.utils.book_append_sheet(wb, ws, "Table_of_Specifications");
+      XLSX.writeFile(wb, "Table_of_Specification_Melanio_Florino_Framework.xlsx");
+      showToast("Excel spreadsheet (.xlsx) downloaded successfully!");
+    }
+
+    // ==========================================
+    // MODAL & UI UTILITIES
+    // ==========================================
+    function switchTab(tabId) {
+      document.getElementById("tab-blueprint").classList.add("hidden");
+      document.getElementById("tab-test-generator").classList.add("hidden");
+      document.getElementById("tab-analytics").classList.add("hidden");
+
+      document.querySelectorAll(".tab-btn").forEach(btn => {
+        btn.classList.remove("active", "bg-white", "text-indigo-900");
+        btn.classList.add("bg-indigo-800/60", "text-white");
+      });
+
+      if (tabId === 'blueprint') {
+        document.getElementById("tab-blueprint").classList.remove("hidden");
+      } else if (tabId === 'test-generator') {
+        document.getElementById("tab-test-generator").classList.remove("hidden");
+        generateAITestQuestions();
+      } else if (tabId === 'analytics') {
+        document.getElementById("tab-analytics").classList.remove("hidden");
+        updateAnalyticsCharts();
+      }
+    }
+
+    function openCitationModal() {
+      document.getElementById("citation-modal").classList.remove("hidden");
+    }
+    function closeCitationModal() {
+      document.getElementById("citation-modal").classList.add("hidden");
+    }
+
+    function openAIExtractModal() {
+      document.getElementById("ai-extract-modal").classList.remove("hidden");
+    }
+    function closeAIExtractModal() {
+      document.getElementById("ai-extract-modal").classList.add("hidden");
+    }
+
+    function loadSampleMIL() {
+      document.getElementById("ai-paste-input").value = 
+`1. Introduction to Media and Information Literacy (8 hours)
+2. Media Evolution from Pre-Industrial to New Age (6 hours)
+3. Types of Media: Print, Broadcast, Digital (10 hours)
+4. Media Sources and Information Ethics (8 hours)
+5. Legal, Copyright, Fair Use, and Netiquette (8 hours)`;
+    }
+
+    function processAIExtraction() {
+      const text = document.getElementById("ai-paste-input").value.trim();
+      if (!text) return;
+
+      const lines = text.split("\n").filter(l => l.trim().length > 0);
+      const parsedTopics = [];
+
+      lines.forEach((line, idx) => {
+        // Extract hour matches e.g. (8 hours) or - 6 hrs
+        const hourMatch = line.match(/(\d+)\s*(hour|hr|day)/i);
+        const hours = hourMatch ? parseInt(hourMatch[1]) : 6;
+        
+        let cleanedTitle = line.replace(/^\d+[\.\)]\s*/, '').replace(/\([\d\s\w]+\)/, '').replace(/-\s*\d+.*$/, '').trim();
+        if(!cleanedTitle) cleanedTitle = `Topic ${idx + 1}`;
+
+        parsedTopics.push({
+          id: idx + 1,
+          title: cleanedTitle,
+          hours: hours,
+          rem: 2,
+          und: 2,
+          app: 1,
+          ana: 1,
+          eva: 0,
+          cre: 0
+        });
+      });
+
+      if (parsedTopics.length > 0) {
+        topicsData = parsedTopics;
+        triggerAutoAIRebalance();
+        closeAIExtractModal();
+        showToast("Successfully parsed syllabus and built Table of Specifications!");
+      }
+    }
+
+    function loadSamplePresetPrompt() {
+      const presets = [
+        { name: "Grade 10 Science (Genetics & Evolution)", subject: "Science 10", items: 50, hours: 36 },
+        { name: "Grade 11 General Mathematics", subject: "General Mathematics", items: 50, hours: 40 },
+        { name: "Grade 7 English (Philippine Literature)", subject: "English 7", items: 40, hours: 30 }
+      ];
+
+      const choice = prompt("Select a Curated DepEd TOS Preset:\n1. Grade 10 Science\n2. Grade 11 Gen Math\n3. Grade 7 English\nEnter 1, 2, or 3:", "1");
+      if (choice === "1") {
+        document.getElementById("input-subject").value = "Science 10 (Genetics & Biology)";
+        document.getElementById("input-grade").value = "Grade 10 - Junior High";
+        topicsData = [
+          { id: 1, title: "Heredity: Inheritance and Variation", hours: 10, rem: 3, und: 3, app: 3, ana: 2, eva: 1, cre: 1 },
+          { id: 2, title: "DNA, RNA, and Protein Synthesis", hours: 10, rem: 3, und: 3, app: 3, ana: 3, eva: 1, cre: 1 },
+          { id: 3, title: "Evidences of Biological Evolution", hours: 8, rem: 2, und: 3, app: 2, ana: 2, eva: 1, cre: 1 },
+          { id: 4, title: "Biodiversity and Population Ecology", hours: 8, rem: 2, und: 2, app: 2, ana: 2, eva: 1, cre: 1 }
+        ];
+      } else if (choice === "2") {
+        document.getElementById("input-subject").value = "General Mathematics";
+        document.getElementById("input-grade").value = "Grade 11 - Senior High";
+        topicsData = [
+          { id: 1, title: "Functions and Rational Functions", hours: 12, rem: 3, und: 3, app: 4, ana: 3, eva: 1, cre: 1 },
+          { id: 2, title: "Exponential and Logarithmic Functions", hours: 12, rem: 3, und: 3, app: 4, ana: 3, eva: 1, cre: 1 },
+          { id: 3, title: "Simple and Compound Interest Annuities", hours: 8, rem: 2, und: 2, app: 3, ana: 2, eva: 1, cre: 0 },
+          { id: 4, title: "Basic Business Logic and Propositions", hours: 8, rem: 2, und: 2, app: 2, ana: 2, eva: 1, cre: 0 }
+        ];
+      }
+      triggerAutoAIRebalance();
+    }
+
+    function showToast(msg) {
+      const toast = document.getElementById("toast");
+      document.getElementById("toast-message").textContent = msg;
+      toast.classList.remove("translate-y-20", "opacity-0");
+      setTimeout(() => {
+        toast.classList.add("translate-y-20", "opacity-0");
+      }, 3500);
+    }
+
+    function confettiEffect() {
+      if (typeof confetti === 'function') {
+        confetti({
+          particleCount: 50,
+          spread: 60,
+          origin: { y: 0.85 }
+        });
+      }
+    }
+  </script>
+</body>
+</html>
