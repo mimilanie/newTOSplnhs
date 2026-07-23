@@ -233,7 +233,7 @@
                             </select>
                         </div>
 
-                        <!-- NEW: Term selector -->
+                        <!-- Term selector -->
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">Term</label>
                             <select id="input-term" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium bg-white">
@@ -252,7 +252,7 @@
                             <input id="input-teacher" type="text" value="Prof. Alex Santos, LPT" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium" />
                         </div>
 
-                        <!-- Approved By – changed to dropdown with School Head / Principal I / Principal II -->
+                        <!-- Approved By – dropdown -->
                         <div>
                             <label class="block font-semibold text-slate-600 mb-1">To be approved by</label>
                             <select id="input-principal" class="w-full px-2.5 py-1.5 rounded-lg border border-slate-300 focus:ring-2 focus:ring-indigo-500 outline-none font-medium bg-white">
@@ -262,7 +262,7 @@
                             </select>
                         </div>
 
-                        <!-- Department Head / Master Teacher (retained from prior edit) -->
+                        <!-- Department Head / Master Teacher -->
                         <div class="col-span-2">
                             <div class="flex items-center gap-2">
                                 <div class="flex-1">
@@ -475,7 +475,7 @@
                     </table>
                 </div>
 
-                <!-- TABLE BOTTOM ACTION BAR -->
+                <!-- TABLE BOTTOM ACTION BAR – added Word button -->
                 <div class="p-4 bg-slate-50 border-t border-slate-200 flex flex-col sm:flex-row items-center justify-between gap-3 no-print">
                     <div class="flex items-center gap-2">
                         <button onclick="addNewTopicRow()" class="px-3 py-1.5 rounded-lg border border-slate-300 bg-white hover:bg-slate-100 text-slate-700 font-semibold text-xs flex items-center gap-1.5 shadow-xs transition">
@@ -486,6 +486,10 @@
                         </button>
                     </div>
                     <div class="flex items-center gap-2">
+                        <!-- NEW: Word Download Button -->
+                        <button onclick="exportToWord()" class="px-3.5 py-1.5 rounded-lg bg-blue-600 hover:bg-blue-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
+                            <i data-lucide="file-text" class="w-3.5 h-3.5"></i> Download Word (.doc)
+                        </button>
                         <button onclick="exportToExcel()" class="px-3.5 py-1.5 rounded-lg bg-emerald-600 hover:bg-emerald-700 text-white font-semibold text-xs flex items-center gap-1.5 shadow-xs transition cursor-pointer">
                             <i data-lucide="file-spreadsheet" class="w-3.5 h-3.5"></i> Download Excel (.xlsx)
                         </button>
@@ -793,7 +797,6 @@
                     el.addEventListener("change", updateHeaderView);
                 }
             });
-            // Force initial update
             setTimeout(updateHeaderView, 100);
         }
 
@@ -1200,7 +1203,7 @@
         }
 
         // ==========================================
-        // EXPORT EXCEL
+        // EXPORT TO EXCEL
         // ==========================================
         function exportToExcel() {
             const wb = XLSX.utils.book_new();
@@ -1251,6 +1254,189 @@
             XLSX.utils.book_append_sheet(wb, ws, "Table_of_Specifications");
             XLSX.writeFile(wb, "Table_of_Specification_Melanio_Florino_Framework.xlsx");
             showToast("Excel spreadsheet (.xlsx) downloaded successfully!");
+        }
+
+        // ==========================================
+        // EXPORT TO WORD (.doc) – NEW
+        // ==========================================
+        function exportToWord() {
+            // Gather all current field values
+            const school = document.getElementById("input-school").value;
+            const subject = document.getElementById("input-subject").value;
+            const grade = document.getElementById("input-grade").value;
+            const period = document.getElementById("input-period").value;
+            const term = document.getElementById("input-term").value;
+            const sy = document.getElementById("input-sy").value;
+            const teacher = document.getElementById("input-teacher").value;
+            const principal = document.getElementById("input-principal").value;
+            const deptHead = document.getElementById("input-dept-head").value || "Department Head / Master Teacher";
+
+            // Compute totals from topicsData
+            let totalHours = 0,
+                totalItems = 0;
+            let sumRem = 0,
+                sumUnd = 0,
+                sumApp = 0,
+                sumAna = 0,
+                sumEva = 0,
+                sumCre = 0;
+            topicsData.forEach(t => {
+                totalHours += t.hours;
+                const items = (t.rem || 0) + (t.und || 0) + (t.app || 0) + (t.ana || 0) + (t.eva || 0) + (t.cre || 0);
+                totalItems += items;
+                sumRem += t.rem || 0;
+                sumUnd += t.und || 0;
+                sumApp += t.app || 0;
+                sumAna += t.ana || 0;
+                sumEva += t.eva || 0;
+                sumCre += t.cre || 0;
+            });
+
+            // Build table rows
+            let tableRows = '';
+            topicsData.forEach((t, idx) => {
+                const items = (t.rem || 0) + (t.und || 0) + (t.app || 0) + (t.ana || 0) + (t.eva || 0) + (t.cre ||
+                    0);
+                const range = t.itemStart ? (t.itemStart === t.itemEnd ? `Item ${t.itemStart}` :
+                    `Items ${t.itemStart} – ${t.itemEnd}`) : 'None';
+                const pct = (t.percentTime || 0).toFixed(1);
+                tableRows += `
+                <tr>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:left;">${t.title}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.hours}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${pct}%</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${items}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.rem || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.und || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.app || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.ana || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.eva || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${t.cre || 0}</td>
+                    <td style="border:1px solid #1e293b; padding:4px 6px; text-align:center;">${range}</td>
+                </tr>`;
+            });
+
+            // Build the full HTML for Word
+            const htmlContent = `
+            <html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">
+            <head>
+                <meta charset="UTF-8">
+                <title>Table of Specifications</title>
+                <style>
+                    body { font-family: 'Inter', Arial, sans-serif; font-size: 11pt; margin: 1in; }
+                    h1, h2, h3, p { margin: 0; padding: 0; }
+                    .header { text-align: center; margin-bottom: 12px; }
+                    .header h1 { font-size: 18pt; font-weight: 800; }
+                    .header h2 { font-size: 14pt; font-weight: 600; color: #1e293b; }
+                    .header .sub { font-size: 11pt; font-weight: 500; color: #334155; }
+                    .meta-grid { display: flex; flex-wrap: wrap; justify-content: space-between; font-size: 10pt; margin: 8px 0 12px 0; border-top: 1px solid #cbd5e1; padding-top: 8px; }
+                    .meta-grid div { width: 48%; }
+                    table { border-collapse: collapse; width: 100%; font-size: 9pt; }
+                    th, td { border: 1px solid #1e293b; padding: 4px 6px; text-align: center; }
+                    th { background-color: #1e293b; color: white; font-weight: 700; }
+                    .bg-slate-100 { background-color: #f1f5f9; }
+                    .bg-indigo-50 { background-color: #eef2ff; }
+                    .foot { margin-top: 12px; display: flex; justify-content: space-between; font-size: 9pt; }
+                    .signatures { display: flex; justify-content: space-between; margin-top: 24px; font-size: 10pt; }
+                    .signatures div { text-align: center; }
+                    .signatures .name { font-weight: 700; text-transform: uppercase; border-bottom: 1px solid #475569; padding-bottom: 2px; display: inline-block; min-width: 180px; }
+                    .citation { margin-top: 16px; font-size: 8pt; color: #64748b; text-align: center; border-top: 1px solid #cbd5e1; padding-top: 6px; }
+                </style>
+            </head>
+            <body>
+                <div class="header">
+                    <div style="display:flex; align-items:center; justify-content:center; gap:8px;">
+                        <span style="font-size:24pt;">🏅</span>
+                        <div>
+                            <p style="font-size:9pt; text-transform:uppercase; letter-spacing:2px; font-weight:600;">${school} • Department of Education</p>
+                            <h1>TABLE OF SPECIFICATIONS (TOS)</h1>
+                            <h2>${subject}</h2>
+                            <p class="sub">${period} (${term}) • ${grade}</p>
+                        </div>
+                    </div>
+                    <div class="meta-grid">
+                        <div><strong>School Year:</strong> ${sy}</div>
+                        <div><strong>Total Items:</strong> ${totalItems}</div>
+                        <div><strong>Total Hours:</strong> ${totalHours}</div>
+                        <div><strong>Prepared by:</strong> ${teacher}</div>
+                    </div>
+                </div>
+
+                <table>
+                    <thead>
+                        <tr>
+                            <th rowspan="2" style="text-align:left; min-width:180px;">Topic / Learning Competency</th>
+                            <th rowspan="2" style="width:60px;">Hours</th>
+                            <th rowspan="2" style="width:60px;">% Time</th>
+                            <th rowspan="2" style="width:60px;">No. of Items</th>
+                            <th colspan="6">Cognitive Process Dimensions (Revised Bloom's Taxonomy)</th>
+                            <th rowspan="2" style="min-width:120px;">Item Placement</th>
+                        </tr>
+                        <tr>
+                            <th>Remembering</th>
+                            <th>Understanding</th>
+                            <th>Applying</th>
+                            <th>Analyzing</th>
+                            <th>Evaluating</th>
+                            <th>Creating</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        ${tableRows}
+                    </tbody>
+                    <tfoot>
+                        <tr style="background-color:#f1f5f9; font-weight:700;">
+                            <td style="text-align:left;">TOTAL / SUMMARY</td>
+                            <td>${totalHours}</td>
+                            <td>100%</td>
+                            <td>${totalItems}</td>
+                            <td>${sumRem}</td>
+                            <td>${sumUnd}</td>
+                            <td>${sumApp}</td>
+                            <td>${sumAna}</td>
+                            <td>${sumEva}</td>
+                            <td>${sumCre}</td>
+                            <td>Items 1 – ${totalItems}</td>
+                        </tr>
+                    </tfoot>
+                </table>
+
+                <div class="signatures">
+                    <div>
+                        <p><strong>Prepared by:</strong></p>
+                        <p class="name">${teacher.toUpperCase()}</p>
+                        <p style="font-size:8pt;">Subject Teacher</p>
+                    </div>
+                    <div>
+                        <p><strong>Checked & Reviewed by:</strong></p>
+                        <p class="name">${deptHead.toUpperCase()}</p>
+                        <p style="font-size:8pt;">Department Head / Master Teacher</p>
+                    </div>
+                    <div>
+                        <p><strong>Approved by:</strong></p>
+                        <p class="name">${principal.toUpperCase()}</p>
+                        <p style="font-size:8pt;">School Administrator</p>
+                    </div>
+                </div>
+
+                <div class="citation">
+                    <strong>Citation & Methodology Reference:</strong> Blueprint format and time-to-item proportional modeling innovated by <strong>Melanio R. Florino Jr.</strong> • DepEd & CHED Standard Assessment Compliant • Generated with AI TOS Engine
+                </div>
+            </body>
+            </html>
+            `;
+
+            // Create Blob and download
+            const blob = new Blob([htmlContent], { type: 'application/msword' });
+            const url = URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = `Table_of_Specifications_${subject.replace(/[^a-zA-Z0-9]/g,'_')}.doc`;
+            document.body.appendChild(a);
+            a.click();
+            document.body.removeChild(a);
+            URL.revokeObjectURL(url);
+            showToast("Word document (.doc) downloaded successfully!");
         }
 
         // ==========================================
